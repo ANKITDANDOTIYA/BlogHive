@@ -27,10 +27,17 @@ router.post("/signup", async (req,res) => {
 router.post("/signin", async (req,res) => {
      const {email, password} = req.body;
 
-      const user = await User.matchPassword(email, password);
+    try{ const token = await User.matchPasswordAndGenerateToken(email, password);
+       return res.cookie("token", token).redirect("/");
+    }catch(err){
+        return res.render("signin", {error: err.message});
+    }
 
-      console.log(user);
-      return res.redirect("/");
+       
 });
+
+router.get("/logout",(req,res)=>{
+    res.clearCookie("token").redirect("/");
+})
 
 module.exports = router;

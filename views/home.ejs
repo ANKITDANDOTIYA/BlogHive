@@ -7,9 +7,31 @@
 </head>
 
 <body>
-    <%- include('./partials/scripts') %>
     <%- include('./partials/nav') %>
-     
-</body>
 
+ <!-- show all blogs here -->
+    <div class="container mt-4">
+      <div class="row">
+        <% blogs.forEach(blog => { %>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <img src="<%= blog.coverImage %>" class="card-img-top" alt="Blog Cover Image">
+              <div class="card-body">
+                <h5 class="card-title"><%= blog.title %></h5>
+                <p class="card-text"><%= blog.body.substring(0, 100) %>...</p>
+                <p class="card-text"><small class="text-muted">By <%= blog.createdBy.fullName %> on <%= blog.createdAt.toDateString() %></small></p>
+                <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <%- include('./partials/scripts') %>
+</body>
 </html>
+
+
+    
+     
