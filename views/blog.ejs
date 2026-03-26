@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Blog</title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <div class="container mt-4">
+            <div class="card">
+                <!-- Make this cover image looks good -->
+                <img src="<%= blog.coverImage %>" class="card-img-top" width="600" alt="Blog Cover Image">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= blog.title %>
+                    </h5>
+                    <p class="card-text">
+                        <%= blog.body %>
+                    </p>
+                    <!-- Profile Image -->
+                    <div class="d-flex align-items-center mt-4">
+                        <img src="<%= blog.createdBy.profileImage %>" class="rounded-circle" width="30" height="30"
+                            alt="Profile Image">
+
+                        <p class="card-text"><small class="text-muted">By <%= blog.createdBy.fullName %> on <%=
+                                        blog.createdAt.toDateString() %></small></p>
+                    </div>
+
+                    <div class="container mt-3">
+                        <h1>Comments (<%= comments.length %>)</h1>
+                        <% if(locals.user) { %>
+                            <form action="/blog/comment/<%= blog._id %>" method="post">
+                                <div class="mb-3">
+                                    <textarea name="comment" class="form-control" id="comment" rows="3"
+                                        placeholder="Enter Your Comment"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+
+
+                            <% } %>
+
+                                <div class="mt-4">
+                                    <% comments.forEach(comment=> { %>
+                                        <div class="card mb-2">
+                                            <div class="card-body">
+                                                <p class="card-text">
+                                                    <%= comment.content %>
+                                                </p>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <img src="<%= comment.createdBy.profileImage %>"
+                                                        class="rounded-circle" width="30" height="30"
+                                                        alt="Profile Image">
+                                                    <hr>
+                                                    <p class="card-text"><small class="text-muted">By <%=
+                                                                comment.createdBy.fullName %> on <%=
+                                                                    comment.createdAt.toDateString() %></small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                </div>
+
+                    </div>
+
+                    <%- include('./partials/scripts') %>
+
+</body>
+
+</html>
